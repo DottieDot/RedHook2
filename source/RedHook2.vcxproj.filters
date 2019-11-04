@@ -18,9 +18,6 @@
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="scripting\script.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="util\fiber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

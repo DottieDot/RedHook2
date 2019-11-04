@@ -20,9 +20,19 @@ namespace rh2
       public:
         Script(ScriptFn scriptFunction) : m_scriptFunction(scriptFunction) {}
 
-        void init();
+        inline void init()
+        {
+            m_fiber = Fiber::CreateFiber(reinterpret_cast<Fiber::StartRoutine>(m_scriptFunction),
+                                         nullptr);
+        }
 
-        void update();
+        inline void update()
+        {
+            if (std::chrono::high_resolution_clock::now() < m_wakeAt)
+                return;
+
+            m_fiber.switchTo();
+        }
 
         inline void wait(const std::chrono::high_resolution_clock::duration& duration)
         {
