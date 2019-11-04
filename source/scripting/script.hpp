@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../util/fiber.hpp"
+#include "../core/core.hpp"
 
 #include <chrono>
 
@@ -26,7 +27,7 @@ namespace rh2
         inline void wait(const std::chrono::high_resolution_clock::duration& duration)
         {
             m_wakeAt = std::chrono::high_resolution_clock::now() + duration;
-            // TODO: Switch to game fiber
+            rh2::GetGameFiber().switchTo();
         }
     };
 } // namespace rh2

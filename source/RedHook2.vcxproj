@@ -147,11 +147,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\core.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="memory\helpers.cpp" />
+    <ClCompile Include="memory\memory-location.cpp" />
+    <ClCompile Include="memory\patternscan.cpp" />
     <ClCompile Include="scripting\script.cpp" />
     <ClCompile Include="util\fiber.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\core.hpp" />
+    <ClInclude Include="types.hpp" />
+    <ClInclude Include="memory\helpers.hpp" />
+    <ClInclude Include="memory\memory-location.hpp" />
+    <ClInclude Include="memory\patternscan.hpp" />
     <ClInclude Include="scripting\script.hpp" />
     <ClInclude Include="util\fiber.hpp" />
   </ItemGroup>

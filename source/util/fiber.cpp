@@ -12,7 +12,7 @@ namespace rh2
         }
     }
 
-    void Fiber::remove()
+    void Fiber::remove() const
     {
         if (m_fiber)
         {
