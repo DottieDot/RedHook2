@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\core.hpp" />
+    <ClInclude Include="rage\scrThread.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="memory\helpers.hpp" />
     <ClInclude Include="memory\memory-location.hpp" />
