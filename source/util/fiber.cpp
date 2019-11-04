@@ -6,12 +6,18 @@ namespace rh2
 {
     void Fiber::switchTo() const
     {
-        SwitchToFiber(m_fiber);
+        if (m_fiber)
+        {
+            SwitchToFiber(m_fiber);
+        }
     }
 
-    void Fiber::remove() const
+    void Fiber::remove()
     {
-        DeleteFiber(m_fiber);
+        if (m_fiber)
+        {
+            DeleteFiber(m_fiber);
+        }
     }
 
     Fiber Fiber::CreateFiber(void (*startAddress)(void* pParam), void* pParam)

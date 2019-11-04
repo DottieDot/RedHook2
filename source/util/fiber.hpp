@@ -25,5 +25,15 @@ namespace rh2
         static Fiber CurrentFiber();
 
         static Fiber ConvertThreadToFiber();
+
+        inline bool isNull()
+        {
+            return m_fiber == nullptr;
+        }
+
+        operator bool()
+        {
+            return !isNull();
+        }
     };
 } // namespace rh2
