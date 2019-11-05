@@ -1,0 +1,1 @@
+Throw the .lib files in here with the following file name: <lib_name>-<config>.lib

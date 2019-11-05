@@ -15,4 +15,6 @@ namespace rh2
     using f64 = double;
 
     using hMod = void*;
+
+    using NativeHash = u64;
 } // namespace rh2

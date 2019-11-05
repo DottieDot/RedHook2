@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace rh2
+namespace rh2::hooking::input
 {
     using KeyboardCallback = void (*)(uint32_t keyCode,
                                       uint16_t repeats,
@@ -19,4 +19,4 @@ namespace rh2
     void AddCallback(KeyboardCallback callback);
 
     void RemoveCallback(KeyboardCallback callback);
-} // namespace rh2
+} // namespace rh2::hooking::input

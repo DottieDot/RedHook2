@@ -8,7 +8,7 @@
 
 #include "../memory/memory-location.hpp"
 
-namespace rh2
+namespace rh2::hooking
 {
     class DetourHook
     {
@@ -44,4 +44,4 @@ namespace rh2
     bool DisableHooks();
 
     bool RemoveHooks();
-} // namespace rh2
+} // namespace rh2::hooking

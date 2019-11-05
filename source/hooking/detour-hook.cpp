@@ -1,6 +1,6 @@
 #include "detour-hook.hpp"
 
-namespace rh2
+namespace rh2::hooking
 {
     DetourHook::~DetourHook()
     {
@@ -35,4 +35,4 @@ namespace rh2
         return status == MH_OK || status == MH_ERROR_NOT_CREATED ||
                status == MH_ERROR_NOT_INITIALIZED;
     }
-} // namespace rh2
+} // namespace rh2::hooking

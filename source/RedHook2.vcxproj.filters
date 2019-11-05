@@ -42,6 +42,15 @@
     <ClCompile Include="hooking\input-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="invoker\crossmapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="invoker\invoker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rage\scrThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripting\script.hpp">
@@ -75,6 +84,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rage\scrThread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invoker\crossmapping.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="invoker\invoker.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

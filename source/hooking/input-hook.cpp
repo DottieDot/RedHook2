@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <set>
 
-namespace rh2
+namespace rh2::hooking::input
 {
     WNDPROC                    g_oWndProc     = nullptr;
     std::set<KeyboardCallback> g_callbacks    = {};
@@ -56,4 +56,4 @@ namespace rh2
     {
         g_callbacks.erase(callback);
     }
-} // namespace rh2
+} // namespace rh2::hooking::input

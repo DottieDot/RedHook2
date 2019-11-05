@@ -1,9 +1,11 @@
 #include "command-hook.hpp"
 
-namespace rh2
+#include "../invoker/invoker.hpp"
+
+namespace rh2::hooking
 {
-    CommandHook::CommandHook(const CommandHash native, rage::CommandHandler detour) :
-        DetourHook(commands::invoking::Invoker::GetCommandHandler(native), detour)
+    CommandHook::CommandHook(const NativeHash native, NativeHandler detour) :
+        DetourHook(Invoker::GetCommandHandler(native), detour)
     {
     }
 
@@ -11,4 +13,4 @@ namespace rh2
     {
         DetourHook::orig<void>(info);
     }
-} // namespace rh2
+} // namespace rh2::hooking

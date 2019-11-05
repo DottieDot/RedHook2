@@ -2,6 +2,9 @@
 
 #include "../types.hpp"
 
+using NativeHandler                    = void (*)(void* params);
+static inline rh2::u64** s_CommandHash = nullptr;
+
 namespace rage
 {
     using scrValue = rh2::u64;
@@ -9,6 +12,8 @@ namespace rage
     class scrThread
     {
       public:
+        static NativeHandler GetCmdFromHash(const rh2::NativeHash hash);
+
         class Info
         {
           private:
@@ -65,7 +70,7 @@ namespace rage
 
                 m_args[m_argCount++] = *reinterpret_cast<scrValue*>(&value);
 
-                return true
+                return true;
             }
         };
     };
