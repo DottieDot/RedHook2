@@ -5,15 +5,6 @@
 
 DWORD WINAPI ControlThread(const LPVOID param)
 {
-#ifdef UNIT_TEST
-    if (!quent::memory::RunPatternScanUnitTests())
-    {
-        MessageBoxA(nullptr, "PatternScan unit tests failed", "", MB_OK);
-        return 1;
-    }
-    MessageBoxA(nullptr, "PatternScan unit tests succeeded", "", MB_OK);
-#endif
-
     if (!rh2::Init())
     {
         return 1;

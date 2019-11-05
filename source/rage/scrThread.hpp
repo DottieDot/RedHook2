@@ -9,6 +9,7 @@ namespace rage
 {
     using scrValue = rh2::u64;
 
+#pragma pack(push, 1)
     class scrThread
     {
       public:
@@ -17,11 +18,13 @@ namespace rage
         class Info
         {
           private:
-            scrValue* m_return;
-            rh2::u32  m_argCount = 0u;
-            scrValue* m_args;
-            rh2::u32  m_dataCount = 0u;
-            alignas(rh2::u64) rh2::u8 m_vectorSpace[192]{};
+            scrValue* m_return;             // 0x00
+            rh2::u32  m_argCount = 0u;      // 0x08
+            char      _pad0x0C[0x4];        // 0x0C
+            scrValue* m_args;               // 0x10
+            rh2::u32  m_dataCount = 0u;     // 0x18
+            char      _pad0x1C[0x4];        // 0x1C
+            rh2::u8   m_vectorSpace[192]{}; // 0x20
 
             scrValue m_tempStack[32 /* max args */]{};
 
@@ -74,4 +77,5 @@ namespace rage
             }
         };
     };
+#pragma pack(pop)
 }; // namespace rage

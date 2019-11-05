@@ -4,6 +4,8 @@
 #include "../hooking/detour-hook.hpp"
 #include "../hooking/command-hook.hpp"
 #include "../hooking/input-hook.hpp"
+#include "../invoker/invoker.hpp"
+#include "../scripting/script.hpp"
 
 #include <memory>
 #include <MinHook/MinHook.h>
@@ -21,6 +23,9 @@ namespace rh2
     MemoryLocation g_rage__scrThread__GetCmdFromHash;
 
     std::unique_ptr<hooking::CommandHook> g_waitHook;
+
+    Script*                              g_activeScript = nullptr;
+    std::vector<std::pair<hMod, Script>> g_scripts;
 
     Fiber g_gameFiber;
 
@@ -93,10 +98,10 @@ namespace rh2
 
         file << "Hooks initialized" << std::endl;
 
-        // if (!hooking::input::InitializeHook())
-        //{
-        //  return false;
-        //}
+        if (!hooking::input::InitializeHook())
+        {
+            return false;
+        }
 
         file << "Input hook initialized" << std::endl;
 
@@ -126,6 +131,8 @@ namespace rh2
 
     void MyWait(rage::scrThread::Info* info)
     {
+        static bool b = true;
+
         if (!g_gameFiber)
         {
             if (!(g_gameFiber = Fiber::ConvertThreadToFiber()))
@@ -134,8 +141,12 @@ namespace rh2
             }
         }
 
-        // scripting::ScriptThreadManager::Update();
-        file << "This comes from the sript thread..." << std::endl;
+        for (auto& [_, script] : g_scripts)
+        {
+            g_activeScript = &script;
+            script.update();
+            g_activeScript = nullptr;
+        }
 
         g_waitHook->orig(info);
     }
@@ -168,5 +179,31 @@ namespace rh2
     MemoryLocation Get_rage__scrThread__GetCmdFromHash()
     {
         return g_rage__scrThread__GetCmdFromHash;
+    }
+    void ScriptRegister(hMod module, const Script& script)
+    {
+        g_scripts.push_back(std::pair(module, script));
+    }
+
+    void ScriptUnregister(hMod module)
+    {
+        for (auto it = g_scripts.begin(); it != g_scripts.end(); ++it)
+        {
+            if (it->first == module)
+            {
+                if (it = g_scripts.erase(it); it == g_scripts.end())
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    void ScriptWait(const std::chrono::high_resolution_clock::duration& duration)
+    {
+        if (g_activeScript)
+        {
+            g_activeScript->wait(duration);
+        }
     }
 } // namespace rh2

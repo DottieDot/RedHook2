@@ -31,11 +31,6 @@ namespace rh2
 
     DECLSPEC_NOINLINE uintptr_t Invoker::_NativeCall()
     {
-        if (!s_CommandHash)
-        {
-            throw std::exception("rage::g_CommandHash not initialized yet");
-        }
-
         auto handler = GetCommandHandler(g_commandHash);
 
         if (handler)

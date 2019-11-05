@@ -28,16 +28,15 @@ namespace rh2
 
         inline void update()
         {
+            if (!m_fiber)
+                init();
+
             if (std::chrono::high_resolution_clock::now() < m_wakeAt)
                 return;
 
             m_fiber.switchTo();
         }
 
-        inline void wait(const std::chrono::high_resolution_clock::duration& duration)
-        {
-            m_wakeAt = std::chrono::high_resolution_clock::now() + duration;
-            rh2::GetGameFiber().switchTo();
-        }
+        void wait(const std::chrono::high_resolution_clock::duration& duration);
     };
 } // namespace rh2

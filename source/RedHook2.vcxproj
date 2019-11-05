@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="core\core.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="export.cpp" />
     <ClCompile Include="hooking\command-hook.cpp" />
     <ClCompile Include="hooking\detour-hook.cpp" />
     <ClCompile Include="hooking\input-hook.cpp" />
@@ -166,10 +167,12 @@
     <ClCompile Include="memory\memory-location.cpp" />
     <ClCompile Include="memory\patternscan.cpp" />
     <ClCompile Include="rage\scrThread.cpp" />
+    <ClCompile Include="scripting\script.cpp" />
     <ClCompile Include="util\fiber.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\core.hpp" />
+    <ClInclude Include="export.hpp" />
     <ClInclude Include="hooking\command-hook.hpp" />
     <ClInclude Include="hooking\detour-hook.hpp" />
     <ClInclude Include="hooking\input-hook.hpp" />

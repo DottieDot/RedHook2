@@ -51,6 +51,12 @@
     <ClCompile Include="rage\scrThread.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="export.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scripting\script.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripting\script.hpp">
@@ -90,6 +96,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="invoker\invoker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="export.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
