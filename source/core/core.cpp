@@ -19,10 +19,8 @@ namespace rh2
     MemoryLocation g_PatchVectorResults;
     MemoryLocation g_s_CommandHash;
     MemoryLocation g_rage__scrThread__GetCmdFromHash;
-    MemoryLocation g_rage__fwRandom__ms_Seed;
 
     std::unique_ptr<hooking::CommandHook> g_waitHook;
-    std::unique_ptr<hooking::DetourHook>  g_rage__scrThread__RegisterCommand;
 
     Fiber g_gameFiber;
 
@@ -78,14 +76,6 @@ namespace rh2
 
         file << "g_CommandHash Found" << std::endl;
 
-        if (loc = "FF C8 48 89 15 ? ? ? ? 81 E2 ? ? ? ?"_Scan)
-            g_rage__fwRandom__ms_Seed = loc.add(2).add(3).rip(4);
-        else
-            return false;
-
-        file << "rage::fwRandom::ms_Seed Found "
-             << fmt::format("0x{:016X}", g_rage__fwRandom__ms_Seed.as<uint64_t>()) << std::endl;
-
         file << "Sigs Found" << std::endl;
 
         auto st = MH_Initialize();
@@ -129,75 +119,18 @@ namespace rh2
 
     void Unload() {}
 
-    std::vector<u64>             g_natives;
-    std::unordered_map<u16, u16> aliases;
-    u64                          My_rage__scrThread__RegisterCommand(void*         commandTable,
-                                                                     NativeHash    hash,
-                                                                     NativeHandler handler)
-    {
-        static u16 prev = 0xFFFF;
-        static u8  v1   = 88u;
-
-        u32 rnd = g_rage__fwRandom__ms_Seed.get<u32>();
-        u32 ns = (unsigned int)(signed int)(float)((float)((float)(rnd & 0x7FFF) * 0.000030517578) *
-                                                   (float)(v1 - 1));
-
-        if (prev != ns)
-        {
-            prev = ns;
-            --v1;
-
-            ns = (unsigned int)(signed int)(float)((float)((float)(rnd & 0x7FFF) * 0.000030517578) *
-                                                   (float)(v1 - 1));
-
-            aliases[ns] = v1;
-        }
-
-        if (auto it = aliases.find(ns); it != aliases.end())
-        {
-            ns = it->second;
-        }
-
-        g_natives.push_back(hash);
-
-        file << ns << std::endl;
-
-        return g_rage__scrThread__RegisterCommand->orig<u64>(commandTable, hash, handler);
-    }
-
     bool InitializeHooks()
     {
-        using namespace literals;
-
-        g_rage__scrThread__RegisterCommand = std::make_unique<hooking::DetourHook>(
-            "48 89 5C 24 ? 48 89 6C 24 ? 48 89 74 24 ? 57 48 83 EC 20 0F B6 FA"_Scan,
-            My_rage__scrThread__RegisterCommand);
-
-        return                                              //
-            g_rage__scrThread__RegisterCommand->enable() && //
-            true;                                           //
+        return true;
     }
 
     void MyWait(rage::scrThread::Info* info)
     {
-        static bool b = true;
-
         if (!g_gameFiber)
         {
             if (!(g_gameFiber = Fiber::ConvertThreadToFiber()))
             {
                 g_gameFiber = Fiber::CurrentFiber();
-            }
-        }
-
-        if (b)
-        {
-            b = false;
-
-            std::ofstream file("natives.txt");
-            for (const auto& native : g_natives)
-            {
-                file << fmt::format("0x{:016X}", native) << std::endl;
             }
         }
 
