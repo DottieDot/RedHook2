@@ -20,7 +20,7 @@ namespace rh2
         }
     }
 
-    Fiber Fiber::CreateFiber(void (*startAddress)(void* pParam), void* pParam)
+    Fiber rh2::Fiber::CreateFiber(StartRoutine startAddress, void* pParam)
     {
         return ::CreateFiber(0, startAddress, pParam);
     }

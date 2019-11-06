@@ -22,8 +22,8 @@ namespace rh2
 
         inline void init()
         {
-            m_fiber = Fiber::CreateFiber(reinterpret_cast<Fiber::StartRoutine>(m_scriptFunction),
-                                         nullptr);
+            m_fiber = Fiber::CreateFiber([](void* pParam) { static_cast<ScriptFn>(pParam)(); },
+                                         this->m_scriptFunction);
         }
 
         inline void update()

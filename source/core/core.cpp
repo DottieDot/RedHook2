@@ -14,6 +14,7 @@
 #include <fmt/format.h>
 #include <unordered_map>
 #include <filesystem>
+#include <mutex>
 
 #include <fstream>
 
@@ -22,12 +23,13 @@ namespace rh2
     MemoryLocation g_PatchVectorResults;
     MemoryLocation g_s_CommandHash;
     MemoryLocation g_rage__scrThread__GetCmdFromHash;
-    MemoryLocation g_CTheScripts_GetCurrentScriptHash;
 
     std::unique_ptr<hooking::CommandHook> g_waitHook;
 
     Script*                              g_activeScript = nullptr;
     std::vector<std::pair<hMod, Script>> g_scripts;
+
+    std::mutex g_scriptMutex;
 
     Fiber g_gameFiber;
 
@@ -47,8 +49,7 @@ namespace rh2
 
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
-        while (!FindWindowA(nullptr, "Red Dead Redemption 2") &&
-               high_resolution_clock::now() < timeout)
+        while (!FindWindowA("sgaWindow", nullptr) && high_resolution_clock::now() < timeout)
         {
             std::this_thread::sleep_for(100ms);
         }
@@ -84,13 +85,6 @@ namespace rh2
 
         file << "g_CommandHash Found" << std::endl;
 
-        if (loc = "E8 ? ? ? ? 4C 8D 45 5F 89 45 5F"_Scan)
-            g_CTheScripts_GetCurrentScriptHash = loc.get_call();
-        else
-            return false;
-
-        file << "CTheScripts::GetCurrentScriptHash Found";
-
         file << "Sigs Found" << std::endl;
 
         auto st = MH_Initialize();
@@ -108,6 +102,13 @@ namespace rh2
 
         file << "Hooks initialized" << std::endl;
 
+        while (!(*s_CommandHash))
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+
+        file << "Command table found" << std::endl;
+
         if (!hooking::input::InitializeHook())
         {
             return false;
@@ -122,14 +123,8 @@ namespace rh2
 
         file << "Initialized command hooks";
 
-        while (!(*s_CommandHash))
-        {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        }
-
-        file << "Command table found" << std::endl;
-
-        LoadMods();
+        std::thread thrd(LoadMods);
+        thrd.detach();
 
         file << "Mods loaded" << std::endl;
 
@@ -145,8 +140,6 @@ namespace rh2
 
     void MyWait(rage::scrThread::Info* info)
     {
-        static u32 (*GetCurrentScriptHash)() = g_CTheScripts_GetCurrentScriptHash;
-
         if (!g_gameFiber)
         {
             if (!(g_gameFiber = Fiber::ConvertThreadToFiber()))
@@ -155,8 +148,10 @@ namespace rh2
             }
         }
 
-        if (GetCurrentScriptHash() == 0x5700179Cu)
+        // GET_HASH_OF_THIS_SCRIPT_NAME
+        if (Invoker::Invoke<u32>(0xBC2C927F5C264960ull) == 0x27eb33d7u) // main
         {
+            std::lock_guard _(g_scriptMutex);
             for (auto& [_, script] : g_scripts)
             {
                 g_activeScript = &script;
@@ -197,13 +192,16 @@ namespace rh2
     {
         return g_rage__scrThread__GetCmdFromHash;
     }
+
     void ScriptRegister(hMod module, const Script& script)
     {
+        std::lock_guard _(g_scriptMutex);
         g_scripts.push_back(std::pair(module, script));
     }
 
     void ScriptUnregister(hMod module)
     {
+        std::lock_guard _(g_scriptMutex);
         for (auto it = g_scripts.begin(); it != g_scripts.end(); ++it)
         {
             if (it->first == module)
@@ -230,10 +228,10 @@ namespace rh2
 
         for (auto it = directory_iterator("mods/"); it != directory_iterator(); ++it)
         {
-            file << it->path().c_str() << " - " << it->path().extension() << std::endl;
             if (it->path().extension() == ".asi")
             {
-                LoadLibraryW(it->path().c_str());
+                LoadLibraryW(it->path().wstring().c_str());
+                file << "Loaded " << it->path().string() << std::endl;
             }
         }
     }
