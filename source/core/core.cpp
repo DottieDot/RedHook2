@@ -13,6 +13,7 @@
 #include <chrono>
 #include <fmt/format.h>
 #include <unordered_map>
+#include <filesystem>
 
 #include <fstream>
 
@@ -32,6 +33,7 @@ namespace rh2
 
     bool InitializeHooks();
     bool InitializeCommandHooks();
+    void LoadMods();
 
     std::ofstream file;
 
@@ -127,6 +129,10 @@ namespace rh2
 
         file << "Command table found" << std::endl;
 
+        LoadMods();
+
+        file << "Mods loaded" << std::endl;
+
         return true;
     }
 
@@ -215,6 +221,20 @@ namespace rh2
         if (g_activeScript)
         {
             g_activeScript->wait(duration);
+        }
+    }
+
+    void LoadMods()
+    {
+        using namespace std::filesystem;
+
+        for (auto it = directory_iterator("mods/"); it != directory_iterator(); ++it)
+        {
+            file << it->path().c_str() << " - " << it->path().extension() << std::endl;
+            if (it->path().extension() == ".asi")
+            {
+                LoadLibraryW(it->path().c_str());
+            }
         }
     }
 } // namespace rh2
