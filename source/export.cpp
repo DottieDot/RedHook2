@@ -2,6 +2,7 @@
 
 #include "core/core.hpp"
 #include "hooking/input-hook.hpp"
+#include "invoker/invoker.hpp"
 
 void keyboardHandlerRegister(KeyboardHandler handler)
 {
@@ -31,4 +32,19 @@ void scriptRegisterAdditionalThread(HMODULE module, void (*LP_SCRIPT_MAIN)())
 void scriptUnregister(HMODULE module)
 {
     scriptUnregister(module);
+}
+
+void nativeInit(UINT64 hash)
+{
+    rh2::Invoker::NativeInit(hash);
+}
+
+void nativePush64(UINT64 val)
+{
+    rh2::Invoker::NativePush(val);
+}
+
+PUINT64 nativeCall()
+{
+    return reinterpret_cast<PUINT64>(rh2::Invoker::NativeCall());
 }

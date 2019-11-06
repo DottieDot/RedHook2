@@ -34,6 +34,11 @@ namespace rh2
             return *reinterpret_cast<T*>(_NativeCall());
         }
 
+        static u64 NativeCall()
+        {
+            return _NativeCall();
+        }
+
         template<typename R, typename... Args>
         static R Invoke(NativeHash hash, const Args&... args)
         {

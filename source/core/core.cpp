@@ -21,6 +21,7 @@ namespace rh2
     MemoryLocation g_PatchVectorResults;
     MemoryLocation g_s_CommandHash;
     MemoryLocation g_rage__scrThread__GetCmdFromHash;
+    MemoryLocation g_CTheScripts_GetCurrentScriptHash;
 
     std::unique_ptr<hooking::CommandHook> g_waitHook;
 
@@ -40,7 +41,7 @@ namespace rh2
         using namespace std::chrono;
         using namespace std::chrono_literals;
 
-        file.open("test.txt");
+        file.open("log.txt");
 
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
@@ -80,6 +81,13 @@ namespace rh2
             return false;
 
         file << "g_CommandHash Found" << std::endl;
+
+        if (loc = "E8 ? ? ? ? 4C 8D 45 5F 89 45 5F"_Scan)
+            g_CTheScripts_GetCurrentScriptHash = loc.get_call();
+        else
+            return false;
+
+        file << "CTheScripts::GetCurrentScriptHash Found";
 
         file << "Sigs Found" << std::endl;
 
@@ -131,7 +139,7 @@ namespace rh2
 
     void MyWait(rage::scrThread::Info* info)
     {
-        static bool b = true;
+        static u32 (*GetCurrentScriptHash)() = g_CTheScripts_GetCurrentScriptHash;
 
         if (!g_gameFiber)
         {
@@ -141,11 +149,14 @@ namespace rh2
             }
         }
 
-        for (auto& [_, script] : g_scripts)
+        if (GetCurrentScriptHash() == 0x5700179Cu)
         {
-            g_activeScript = &script;
-            script.update();
-            g_activeScript = nullptr;
+            for (auto& [_, script] : g_scripts)
+            {
+                g_activeScript = &script;
+                script.update();
+                g_activeScript = nullptr;
+            }
         }
 
         g_waitHook->orig(info);
