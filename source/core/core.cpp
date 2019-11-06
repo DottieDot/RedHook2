@@ -45,14 +45,14 @@ namespace rh2
         using namespace std::chrono;
         using namespace std::chrono_literals;
 
-        file.open("log.txt");
-
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
         while (!FindWindowA("sgaWindow", nullptr) && high_resolution_clock::now() < timeout)
         {
             std::this_thread::sleep_for(100ms);
         }
+
+        file.open("log.txt");
 
         // Check if waiting for the window timed out
         if (high_resolution_clock::now() >= timeout)
@@ -64,28 +64,24 @@ namespace rh2
 
         // Find sigs
         MemoryLocation loc;
+
+        // PatchVectorResults
         if (loc = "8B 41 18 4C 8B C1 85 C0"_Scan)
             g_PatchVectorResults = loc;
         else
             return false;
 
-        file << "PatchVectorResults Found" << std::endl;
-
+        // rage::scrThread::GetCmdFromhahs
         if (loc = "E8 ? ? ? ? 8B 9C F5 ? ? ? ?"_Scan)
             g_rage__scrThread__GetCmdFromHash = loc.get_call();
         else
             return false;
 
-        file << "rage::scrThread::GetCmdFromhahs Found" << std::endl;
-
+        /// s_CommandHash
         if (loc = "E8 ? ? ? ? 8B 9C F5 ? ? ? ?"_Scan)
             s_CommandHash = g_s_CommandHash = loc.add(3).get_lea();
         else
             return false;
-
-        file << "g_CommandHash Found" << std::endl;
-
-        file << "Sigs Found" << std::endl;
 
         auto st = MH_Initialize();
         if (st != MH_OK)
@@ -93,40 +89,28 @@ namespace rh2
             return false;
         }
 
-        file << "Minhook Initialized" << std::endl;
-
         if (!InitializeHooks())
         {
             return false;
         }
-
-        file << "Hooks initialized" << std::endl;
 
         while (!(*s_CommandHash))
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
 
-        file << "Command table found" << std::endl;
-
         if (!hooking::input::InitializeHook())
         {
             return false;
         }
-
-        file << "Input hook initialized" << std::endl;
 
         if (!InitializeCommandHooks())
         {
             return false;
         }
 
-        file << "Initialized command hooks";
-
         std::thread thrd(LoadMods);
         thrd.detach();
-
-        file << "Mods loaded" << std::endl;
 
         return true;
     }
@@ -226,7 +210,7 @@ namespace rh2
     {
         using namespace std::filesystem;
 
-        for (auto it = directory_iterator("mods/"); it != directory_iterator(); ++it)
+        for (auto it = directory_iterator("scripts/"); it != directory_iterator(); ++it)
         {
             if (it->path().extension() == ".asi")
             {
