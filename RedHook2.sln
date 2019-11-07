@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RedHook2", "source\RedHook2.vcxproj", "{C90AA001-FDFC-44C3-A4EC-1EF949458AF4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Loader", "Loader\Loader.vcxproj", "{E2DEF362-F644-45CF-812F-9DAD0247748C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{C90AA001-FDFC-44C3-A4EC-1EF949458AF4}.Release|x64.Build.0 = Release|x64
 		{C90AA001-FDFC-44C3-A4EC-1EF949458AF4}.Release|x86.ActiveCfg = Release|Win32
 		{C90AA001-FDFC-44C3-A4EC-1EF949458AF4}.Release|x86.Build.0 = Release|Win32
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Debug|x64.ActiveCfg = Debug|x64
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Debug|x64.Build.0 = Debug|x64
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Debug|x86.ActiveCfg = Debug|Win32
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Debug|x86.Build.0 = Debug|Win32
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Release|x64.ActiveCfg = Release|x64
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Release|x64.Build.0 = Release|x64
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Release|x86.ActiveCfg = Release|Win32
+		{E2DEF362-F644-45CF-812F-9DAD0247748C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
