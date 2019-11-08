@@ -2,21 +2,16 @@
 
 An open source script hook for Red Dead Redemption 2.
 
-## Requirements
-
-VisualStudio 2017 or higher.
+Probably won't be updating this, unless there is demand for it. 3+ Script hooks is probably a bit much and a compatibiltiy nightmare.
 
 ## Usage
 
-Inject the dll with any injector you liked.
-
-Scripts are installed by placing them in the `scripts` folder in your Red Dead Redemption 2 folder.
+Launch Red Dead Redemption 2 and open loader.exe.
+To install sctipts, create a "scripts" folder in your RDR2 directiory and place them in there. 
 
 ## Authors
 
 * **Taran van Groenigenn** ([DottieDot](https://github.com/DottieDot)) - *Initial work*
-
-See also the list of [contributors](https://github.com/DottieDot/RedHook2/contributors) who participated in this project.
 
 ## License
 
@@ -26,7 +21,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * **Alexander Blade** - *ScriptHooKV, who's API the API is based on*
 * **Salted** ([VerySalted](https://github.com/VerySalted)) - *Hooking*
-* **Daniel Maywood** ([DanielMaywood](https://github.com/danielmaywood)) - *Logging*
 * **Unknown** ([UnknownModder](http://github.com/unknownmodder)) - *Information*
-
-*This readme is still a work in progress*
