@@ -4,6 +4,8 @@ An open source script hook for Red Dead Redemption 2.
 
 Probably won't be updating this, unless there is demand for it. 3+ Script hooks is probably a bit much and a compatibiltiy nightmare.
 
+*Please don't use this for online, even though it's allowed by the license*
+
 ## Usage
 
 Launch Red Dead Redemption 2 and open loader.exe.
