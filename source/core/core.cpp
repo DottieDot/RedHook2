@@ -45,14 +45,16 @@ namespace rh2
         using namespace std::chrono;
         using namespace std::chrono_literals;
 
+        file.open("log.txt");
+
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
-        while (!FindWindowA("sgaWindow", nullptr) && high_resolution_clock::now() < timeout)
+        while (!FindWindowA(nullptr, "Red Dead Redemption 2") &&
+               high_resolution_clock::now() < timeout)
         {
             std::this_thread::sleep_for(100ms);
         }
-
-        file.open("log.txt");
+        std::this_thread::sleep_for(2s);
 
         // Check if waiting for the window timed out
         if (high_resolution_clock::now() >= timeout)
@@ -60,7 +62,7 @@ namespace rh2
             return false;
         }
 
-        file << "Window Found" << std::endl;
+        file << "Window Found " << std::endl;
 
         // Find sigs
         MemoryLocation loc;
@@ -71,15 +73,12 @@ namespace rh2
         else
             return false;
 
-        // rage::scrThread::GetCmdFromhahs
+        // rage::scrThread::GetCmdFromhash
         if (loc = "E8 ? ? ? ? 8B 9C F5 ? ? ? ?"_Scan)
+        {
             g_rage__scrThread__GetCmdFromHash = loc.get_call();
-        else
-            return false;
-
-        /// s_CommandHash
-        if (loc = "E8 ? ? ? ? 8B 9C F5 ? ? ? ?"_Scan)
-            s_CommandHash = g_s_CommandHash = loc.add(3).get_lea();
+            s_CommandHash = g_s_CommandHash = loc.get_call().add(3).get_lea();
+        }
         else
             return false;
 
@@ -96,7 +95,7 @@ namespace rh2
 
         while (!(*s_CommandHash))
         {
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(100ms);
         }
 
         if (!hooking::input::InitializeHook())
