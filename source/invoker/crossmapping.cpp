@@ -4,13 +4,7 @@
 
 namespace rh2
 {
-    struct NativeTranslation
-    {
-        NativeHash m_origHash;
-        NativeHash m_currentHash;
-    };
-
-    static constexpr NativeTranslation g_translationTable[] = {
+    const NativeTranslation g_translationTable[] = {
         { 0x4EDE34FBADD967A6, 0x4EDE34FBADD967A6 }, // WAIT
         { 0xE81651AD79516E48, 0xE81651AD79516E48 }, // START_NEW_SCRIPT
         { 0xB8BA7F44DF1575E1, 0xB8BA7F44DF1575E1 }, // START_NEW_SCRIPT_WITH_ARGS
@@ -6850,52 +6844,4 @@ namespace rh2
         { 0x7AF1BB4504EA5ED9, 0x7AF1BB4504EA5ED9 }, //
         { 0xCCB4635A071FB62D, 0xCCB4635A071FB62D }  //
     };
-
-    std::unordered_map<NativeHash, NativeHash> g_translationCache;
-
-    constexpr NativeHash GetOrigHash(NativeHash currentHash)
-    {
-        for (const auto& [orig, _new] : g_translationTable)
-        {
-            if (_new == currentHash)
-            {
-                return orig;
-            }
-        }
-
-        return 0;
-    }
-
-    constexpr NativeHash GetCurrentHashCexpr(NativeHash origHash)
-    {
-        for (const auto& [orig, _new] : g_translationTable)
-        {
-            if (orig == origHash)
-            {
-                return _new;
-            }
-        }
-
-        return 0;
-    }
-
-    NativeHash GetCurrentHash(NativeHash origHash)
-    {
-        NativeHash res = 0;
-
-        if (!(res = g_translationCache[origHash]))
-        {
-            for (const auto& [orig, _new] : g_translationTable)
-            {
-                if (orig == origHash)
-                {
-                    res = _new;
-                    break;
-                }
-            }
-        }
-
-        return res;
-    }
-
 } // namespace rh2

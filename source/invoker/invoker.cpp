@@ -5,11 +5,13 @@
 
 #include <exception>
 #include <Windows.h>
+#include <unordered_map>
 
 namespace rh2
 {
-    NativeHash            g_commandHash = 0x0;
-    rage::scrThread::Info g_callInfo;
+    std::unordered_map<u64, NativeHandler> g_handlerCache;
+    NativeHash                             g_commandHash = 0x0;
+    rage::scrThread::Info                  g_callInfo;
 
     void PatchVectorResults(rage::scrThread::Info* info)
     {
@@ -31,7 +33,7 @@ namespace rh2
 
     DECLSPEC_NOINLINE uintptr_t Invoker::_NativeCall()
     {
-        auto handler = GetCommandHandler(g_commandHash);
+        NativeHandler handler = GetCommandHandler(g_commandHash);
 
         if (handler)
         {
@@ -50,13 +52,19 @@ namespace rh2
 
     NativeHandler Invoker::GetCommandHandler(NativeHash command)
     {
-        NativeHash currentHash = GetCurrentHash(command);
-        if (!currentHash)
+        auto& handler = g_handlerCache[command];
+        if (handler == nullptr)
         {
-            currentHash = command;
+            NativeHash currentHash = GetCurrentHash(command);
+            if (!currentHash)
+            {
+                currentHash = command;
+            }
+
+            handler = rage::scrThread::GetCmdFromHash(currentHash);
         }
 
-        return rage::scrThread::GetCmdFromHash(currentHash);
+        return handler;
     }
 
 } // namespace rh2
