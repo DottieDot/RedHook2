@@ -9,7 +9,7 @@
 
 namespace rh2
 {
-    bool Init();
+    bool Init(hMod module);
 
     void Unload();
 

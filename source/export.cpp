@@ -11,7 +11,7 @@ void keyboardHandlerRegister(KeyboardHandler handler)
 
 void keyboardHandlerUnregister(KeyboardHandler handler)
 {
-    rh2::hooking::input::AddCallback(handler);
+    rh2::hooking::input::RemoveCallback(handler);
 }
 
 void scriptWait(DWORD time)
@@ -31,7 +31,7 @@ void scriptRegisterAdditionalThread(HMODULE module, void (*LP_SCRIPT_MAIN)())
 
 void scriptUnregister(HMODULE module)
 {
-    scriptUnregister(module);
+    rh2::ScriptUnregister(module);
 }
 
 void nativeInit(UINT64 hash)

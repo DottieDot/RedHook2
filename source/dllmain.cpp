@@ -5,10 +5,13 @@
 
 DWORD WINAPI ControlThread(const LPVOID param)
 {
-    if (!rh2::Init())
+    if (!rh2::Init(param))
     {
         return 1;
     }
+
+    // Sleep(2000);
+    // rh2::Unload();
 
     return 0;
 }

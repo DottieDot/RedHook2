@@ -15,11 +15,16 @@
 #include <unordered_map>
 #include <filesystem>
 #include <mutex>
+#include <atomic>
+#include <unordered_set>
 
 #include <fstream>
 
 namespace rh2
 {
+    std::atomic_bool g_unloading = false;
+    hMod             g_module;
+
     MemoryLocation g_PatchVectorResults;
     MemoryLocation g_s_CommandHash;
     MemoryLocation g_rage__scrThread__GetCmdFromHash;
@@ -28,6 +33,7 @@ namespace rh2
 
     Script*                              g_activeScript = nullptr;
     std::vector<std::pair<hMod, Script>> g_scripts;
+    std::unordered_set<hMod>             g_modules;
 
     std::mutex g_scriptMutex;
 
@@ -37,15 +43,13 @@ namespace rh2
     bool InitializeCommandHooks();
     void LoadMods();
 
-    std::ofstream file;
-
-    bool Init()
+    bool Init(hMod module)
     {
         using namespace literals;
         using namespace std::chrono;
         using namespace std::chrono_literals;
 
-        file.open("log.txt");
+        g_module = module;
 
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
@@ -61,8 +65,6 @@ namespace rh2
         {
             return false;
         }
-
-        file << "Window Found " << std::endl;
 
         // Find sigs
         MemoryLocation loc;
@@ -114,7 +116,43 @@ namespace rh2
         return true;
     }
 
-    void Unload() {}
+    void Unload()
+    {
+        using namespace std::chrono_literals;
+
+        if (g_unloading)
+            return;
+        g_unloading = true;
+
+        for (auto mod : g_modules)
+        {
+            FreeLibrary(static_cast<HMODULE>(mod));
+        }
+
+        if (!hooking::input::RemoveHook())
+        {
+            return;
+        }
+
+        if (!hooking::DisableHooks())
+        {
+            return;
+        }
+
+        if (!hooking::RemoveHooks())
+        {
+            return;
+        }
+
+        if (MH_Uninitialize() != MH_OK)
+        {
+            return;
+        }
+
+        MemoryLocation::RestoreAllModifiedBytes();
+
+        FreeLibraryAndExitThread(static_cast<HMODULE>(g_module), 0);
+    }
 
     bool InitializeHooks()
     {
@@ -123,6 +161,9 @@ namespace rh2
 
     void MyWait(rage::scrThread::Info* info)
     {
+        if (g_unloading)
+            return g_waitHook->orig(info);
+
         if (!g_gameFiber)
         {
             if (!(g_gameFiber = Fiber::ConvertThreadToFiber()))
@@ -179,12 +220,12 @@ namespace rh2
     void ScriptRegister(hMod module, const Script& script)
     {
         std::lock_guard _(g_scriptMutex);
+        g_modules.insert(module);
         g_scripts.push_back(std::pair(module, script));
     }
 
     void ScriptUnregister(hMod module)
     {
-        std::lock_guard _(g_scriptMutex);
         for (auto it = g_scripts.begin(); it != g_scripts.end(); ++it)
         {
             if (it->first == module)
@@ -195,6 +236,9 @@ namespace rh2
                 }
             }
         }
+
+        g_modules.erase(module);
+        FreeLibraryAndExitThread(static_cast<HMODULE>(module), 0);
     }
 
     void ScriptWait(const std::chrono::high_resolution_clock::duration& duration)
@@ -214,7 +258,6 @@ namespace rh2
             if (it->path().extension() == ".asi")
             {
                 LoadLibraryW(it->path().wstring().c_str());
-                file << "Loaded " << it->path().string() << std::endl;
             }
         }
     }

@@ -31,6 +31,16 @@ namespace rh2
             return m_fiber == nullptr;
         }
 
+        inline bool operator==(const Fiber& fiber)
+        {
+            return m_fiber == fiber.m_fiber;
+        }
+
+        inline bool operator!=(const Fiber& fiber)
+        {
+            return m_fiber != fiber.m_fiber;
+        }
+
         operator bool()
         {
             return !isNull();
