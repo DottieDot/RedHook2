@@ -49,7 +49,7 @@ namespace rh2
 
         // Wait for the game window, otherwise we can't do much
         auto timeout = high_resolution_clock::now() + 20s;
-        while (!FindWindowA(nullptr, "Red Dead Redemption 2") &&
+        while (!FindWindowA("sgaWindow", "Red Dead Redemption 2") &&
                high_resolution_clock::now() < timeout)
         {
             std::this_thread::sleep_for(100ms);
