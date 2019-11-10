@@ -33,7 +33,7 @@ namespace rh2
 
     DECLSPEC_NOINLINE uintptr_t Invoker::_NativeCall()
     {
-        NativeHandler handler = GetCommandHandler(g_commandHash);
+        auto handler = GetCommandHandler(g_commandHash);
 
         if (handler)
         {
@@ -53,9 +53,9 @@ namespace rh2
     NativeHandler Invoker::GetCommandHandler(NativeHash command)
     {
         auto& handler = g_handlerCache[command];
-        if (handler == nullptr)
+        if (!handler)
         {
-            NativeHash currentHash = GetCurrentHash(command);
+            auto currentHash = GetCurrentHash(command);
             if (!currentHash)
             {
                 currentHash = command;
