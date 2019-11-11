@@ -2,7 +2,10 @@
 
 An open source script hook for Red Dead Redemption 2.
 
-Probably won't be updating this, unless there is demand for it. 3+ Script hooks is probably a bit much and a compatibiltiy nightmare.
+~~Probably won't be updating this, unless there is demand for it. 3+ Script hooks is probably a bit much and a compatibiltiy nightmare.~~
+
+People have been showing interest so I guess I'll continue :)
+Will make a proper readme soon
 
 *Please don't use this for online, even though it's allowed by the license*
 
@@ -13,7 +16,7 @@ To install sctipts, create a "scripts" folder in your RDR2 directiory and place 
 
 ## Authors
 
-* **Taran van Groenigenn** ([DottieDot](https://github.com/DottieDot)) - *Initial work*
+* **Taran van Groenigen** ([DottieDot](https://github.com/DottieDot)) - *Initial work*
 
 ## License
 
