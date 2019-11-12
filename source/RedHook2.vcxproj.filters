@@ -101,5 +101,14 @@
     <ClInclude Include="export.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rage\scrProgram.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gta\GtaThread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="core\HookThread.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

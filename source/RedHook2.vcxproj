@@ -77,6 +77,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)vendor/inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)vendor/lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,6 +87,8 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)vendor/inc;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <LibraryPath>$(SolutionDir)vendor/lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\intermediate\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -172,12 +176,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core\core.hpp" />
+    <ClInclude Include="core\HookThread.hpp" />
     <ClInclude Include="export.hpp" />
+    <ClInclude Include="gta\GtaThread.hpp" />
     <ClInclude Include="hooking\command-hook.hpp" />
     <ClInclude Include="hooking\detour-hook.hpp" />
     <ClInclude Include="hooking\input-hook.hpp" />
     <ClInclude Include="invoker\crossmapping.hpp" />
     <ClInclude Include="invoker\invoker.hpp" />
+    <ClInclude Include="rage\scrProgram.hpp" />
     <ClInclude Include="rage\scrThread.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="memory\helpers.hpp" />
