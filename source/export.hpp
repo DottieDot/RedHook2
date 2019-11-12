@@ -64,7 +64,7 @@ namespace invoker
     }
 
     template<typename R, typename... Args>
-    static R Invoke(NativeHash hash, const Args&... args)
+    static R Invoke(UINT64 hash, const Args&... args)
     {
         NativeInit(hash);
         (NativePush(args), ...);
