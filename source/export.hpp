@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <Windows.h>
 
 #ifdef RH2_EXPORTS
 #    define RH2_API __declspec(dllexport)
@@ -25,19 +24,19 @@ extern "C"
 
     RH2_API void keyboardHandlerUnregister(KeyboardHandler handler);
 
-    RH2_API void scriptWait(DWORD time);
+    RH2_API void scriptWait(uint32_t time);
 
-    RH2_API void scriptRegister(HMODULE module, void (*LP_SCRIPT_MAIN)());
+    RH2_API void scriptRegister(void* module, void (*LP_SCRIPT_MAIN)());
 
-    RH2_API void scriptRegisterAdditionalThread(HMODULE module, void (*LP_SCRIPT_MAIN)());
+    RH2_API void scriptRegisterAdditionalThread(void* module, void (*LP_SCRIPT_MAIN)());
 
-    RH2_API void scriptUnregister(HMODULE module);
+    RH2_API void scriptUnregister(void* module);
 
-    RH2_API void nativeInit(UINT64 hash);
+    RH2_API void nativeInit(uint64_t hash);
 
-    RH2_API void nativePush64(UINT64 val);
+    RH2_API void nativePush64(uint64_t val);
 
-    RH2_API PUINT64 nativeCall();
+    RH2_API uintptr_t nativeCall();
 #ifdef __cplusplus
 }
 #endif
@@ -64,7 +63,7 @@ namespace invoker
     }
 
     template<typename R, typename... Args>
-    static R Invoke(UINT64 hash, const Args&... args)
+    static R Invoke(uint64_t hash, const Args&... args)
     {
         NativeInit(hash);
         (NativePush(args), ...);

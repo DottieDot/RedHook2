@@ -14,37 +14,37 @@ void keyboardHandlerUnregister(KeyboardHandler handler)
     rh2::hooking::input::RemoveCallback(handler);
 }
 
-void scriptWait(DWORD time)
+void scriptWait(uint32_t time)
 {
     rh2::ScriptWait(std::chrono::milliseconds(time));
 }
 
-void scriptRegister(HMODULE module, void (*LP_SCRIPT_MAIN)())
+void scriptRegister(void* module, void (*LP_SCRIPT_MAIN)())
 {
     rh2::ScriptRegister(module, rh2::Script(LP_SCRIPT_MAIN));
 }
 
-void scriptRegisterAdditionalThread(HMODULE module, void (*LP_SCRIPT_MAIN)())
+void scriptRegisterAdditionalThread(void* module, void (*LP_SCRIPT_MAIN)())
 {
     scriptRegister(module, LP_SCRIPT_MAIN);
 }
 
-void scriptUnregister(HMODULE module)
+void scriptUnregister(void* module)
 {
     rh2::ScriptUnregister(module);
 }
 
-void nativeInit(UINT64 hash)
+void nativeInit(uint64_t hash)
 {
     rh2::Invoker::NativeInit(hash);
 }
 
-void nativePush64(UINT64 val)
+void nativePush64(uint64_t val)
 {
     rh2::Invoker::NativePush(val);
 }
 
-PUINT64 nativeCall()
+uintptr_t nativeCall()
 {
-    return reinterpret_cast<PUINT64>(rh2::Invoker::NativeCall());
+    return rh2::Invoker::NativeCall();
 }
