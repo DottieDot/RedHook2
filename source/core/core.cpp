@@ -160,9 +160,9 @@ namespace rh2
         g_unloading = true;
 
         logs::g_hLog->log("Unloaded {} mods", g_modules.size());
-        for (auto mod : g_modules)
+        while (!g_modules.empty())
         {
-            FreeLibrary(static_cast<HMODULE>(mod));
+            FreeLibrary(static_cast<HMODULE>(*g_modules.begin()));
         }
         logs::g_hLog->log("Scripts unloaded");
 
