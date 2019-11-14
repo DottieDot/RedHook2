@@ -3,6 +3,7 @@
 #include "../util/fiber.hpp"
 #include "../memory/memory-location.hpp"
 #include "../scripting/script.hpp"
+#include "../rage/scrProgram.hpp"
 #include "../types.hpp"
 
 #include <chrono>
@@ -26,4 +27,14 @@ namespace rh2
     void ScriptUnregister(hMod module);
 
     void ScriptWait(const std::chrono::high_resolution_clock::duration& duration);
+
+    template<typename T>
+    T* GetGlobalPtr(uint32_t index)
+    {
+        if (!rage::scrProgram::sm_Globals)
+            return nullptr;
+
+        return *reinterpret_cast<T**>(
+            &rage::scrProgram::sm_Globals[index >> 18 & 0x3F][index & 0x3FFFF]);
+    }
 } // namespace rh2

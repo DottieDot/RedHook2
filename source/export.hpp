@@ -37,6 +37,8 @@ extern "C"
     RH2_API void nativePush64(uint64_t val);
 
     RH2_API uintptr_t nativeCall();
+
+    RH2_API uint64_t* getGlobalPtr(uint32_t globalId);
 #ifdef __cplusplus
 }
 #endif

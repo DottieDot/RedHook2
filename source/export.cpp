@@ -48,3 +48,8 @@ uintptr_t nativeCall()
 {
     return rh2::Invoker::NativeCall();
 }
+
+uint64_t* getGlobalPtr(uint32_t globalId)
+{
+    return rh2::GetGlobalPtr<uintptr_t>(globalId);
+}

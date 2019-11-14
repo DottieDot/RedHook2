@@ -177,6 +177,7 @@
     <ClCompile Include="memory\helpers.cpp" />
     <ClCompile Include="memory\memory-location.cpp" />
     <ClCompile Include="memory\patternscan.cpp" />
+    <ClCompile Include="rage\scrProgram.cpp" />
     <ClCompile Include="rage\scrThread.cpp" />
     <ClCompile Include="scripting\script.cpp" />
     <ClCompile Include="util\fiber.cpp" />

@@ -72,6 +72,9 @@
     <ClCompile Include="core\logs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rage\scrProgram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scripting\script.hpp">
@@ -116,9 +119,6 @@
     <ClInclude Include="export.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rage\scrProgram.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="gta\GtaThread.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -150,6 +150,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="core\logs.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rage\scrProgram.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
