@@ -112,6 +112,7 @@
       <PreprocessorDefinitions>RH2_EXPORTS;_DEBUG;REDHOOK2_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +149,7 @@
       <PreprocessorDefinitions>RH2_EXPORTS;NDEBUG;REDHOOK2_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <ObjectFileName>$(IntDir)%(RelativeDir)</ObjectFileName>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\core.cpp" />
+    <ClCompile Include="core\logs.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="export.cpp" />
     <ClCompile Include="hooking\command-hook.cpp" />
@@ -167,6 +170,10 @@
     <ClCompile Include="hooking\input-hook.cpp" />
     <ClCompile Include="invoker\crossmapping.cpp" />
     <ClCompile Include="invoker\invoker.cpp" />
+    <ClCompile Include="logger\file-log.cpp" />
+    <ClCompile Include="logger\helpers.cpp" />
+    <ClCompile Include="logger\log-mgr.cpp" />
+    <ClCompile Include="logger\log.cpp" />
     <ClCompile Include="memory\helpers.cpp" />
     <ClCompile Include="memory\memory-location.cpp" />
     <ClCompile Include="memory\patternscan.cpp" />
@@ -177,6 +184,7 @@
   <ItemGroup>
     <ClInclude Include="core\core.hpp" />
     <ClInclude Include="core\HookThread.hpp" />
+    <ClInclude Include="core\logs.hpp" />
     <ClInclude Include="export.hpp" />
     <ClInclude Include="gta\GtaThread.hpp" />
     <ClInclude Include="hooking\command-hook.hpp" />
@@ -184,6 +192,14 @@
     <ClInclude Include="hooking\input-hook.hpp" />
     <ClInclude Include="invoker\crossmapping.hpp" />
     <ClInclude Include="invoker\invoker.hpp" />
+    <ClInclude Include="logger\file-log.hpp" />
+    <ClInclude Include="logger\generic-file-logger.hpp" />
+    <ClInclude Include="logger\generic-logger.hpp" />
+    <ClInclude Include="logger\helpers.hpp" />
+    <ClInclude Include="logger\log-mgr.hpp" />
+    <ClInclude Include="logger\log.hpp" />
+    <ClInclude Include="logger\logging.hpp" />
+    <ClInclude Include="logger\metric-logger.hpp" />
     <ClInclude Include="rage\scrProgram.hpp" />
     <ClInclude Include="rage\scrThread.hpp" />
     <ClInclude Include="types.hpp" />

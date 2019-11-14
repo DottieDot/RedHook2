@@ -10,9 +10,6 @@ DWORD WINAPI ControlThread(const LPVOID param)
         return 1;
     }
 
-    // Sleep(2000);
-    // rh2::Unload();
-
     return 0;
 }
 

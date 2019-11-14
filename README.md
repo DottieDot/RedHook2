@@ -26,4 +26,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * **Alexander Blade** - *ScriptHooKV, who's API the API is based on*
 * **Salted** ([VerySalted](https://github.com/VerySalted)) - *Hooking*
+* **Salted** ([Daniel Maywood](https://github.com/DanielMaywood)) - *Logging*
 * **Unknown** ([UnknownModder](http://github.com/unknownmodder)) - *Information*

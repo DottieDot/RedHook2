@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <Windows.h>
+
 #include "../types.hpp"
 
 namespace rh2
