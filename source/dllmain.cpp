@@ -27,5 +27,3 @@ BOOL APIENTRY DllMain(const HMODULE hModule, const DWORD reasonForCall, const LP
 
     return TRUE;
 }
-
-__declspec(dllexport) void GENERATE_LIB() {}
